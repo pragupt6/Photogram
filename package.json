@@ -1,0 +1,32 @@
+{
+  "name": "photoapp",
+  "version": "1.0.0",
+  "description": "a quick photo app using azure blob storage to upload images",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "author": "Prateek Gupta",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/storage-blob": "^12.3.0",
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.16",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "multer-azure-blob-storage": "^1.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
