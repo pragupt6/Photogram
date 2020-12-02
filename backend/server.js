@@ -20,35 +20,24 @@ dotenv.config()
 connectDB()
 const app = express()
 app.use(express.json())
-app.get('/', (req, res) => {
-	res.send('API is running')
-})
+
 app.use('/users', userRoute)
-// app.use('/users/login', userRoute)
-// app.use('/userimages/create', userRoute)
 app.use('/api/getimages', imageRoute)
 app.use('/api/upload', uploadRoutes)
-// const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
-// const azureStorage = new MulterAzureStorage({
-// 	connectionString: 'DefaultEndpointsProtocol=https;AccountName=pg6reactapps;AccountKey=asNjSc9kLQYHy/jXOsW8cZXvIcK92mq3+O4vXs5cWjIgyZe5iK/8PtauNZHLdaiJ6eg8IyUJpcYivFZp2tIxOQ==;EndpointSuffix=core.windows.net',
-// 	accessKey: 'asNjSc9kLQYHy/jXOsW8cZXvIcK92mq3+O4vXs5cWjIgyZe5iK/8PtauNZHLdaiJ6eg8IyUJpcYivFZp2tIxOQ==',
-// 	accountName: 'pg6reactapps',
-// 	containerName: 'photoapp',
-// 	blobName: 'abc.jpg',
-// 	// metadata: resolveMetadata,
-// 	containerAccessLevel: 'blob',
-// 	urlExpirationTime: 60
-// });
 
-// const upload = multer({
-// 	storage: azureStorage
-// });
-// app.post('/api/putimage', upload.single('image'), async (req, res, next) => {
-// 	console.log(req.files)
-// 	res.status(200).json(req.files)
-// });
-// router.post("/upload", { upload(req, res, err => {}) });
+if (process.env.NODE_ENV === 'production') {
+	app.use(express.static(path.join('./', 'frontend/build')))
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve('./', 'frontend', 'build', 'index.html'))
+	})
+}
+else {
+	app.get('/', (req, res) => {
+		res.send('API is running')
+	})
+}
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
 app.use(notFound)
 app.use(errorHandler)
 const PORT = process.env.PORT || 5000
