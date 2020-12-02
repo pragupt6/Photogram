@@ -24,19 +24,32 @@ app.use(express.json())
 app.use('/users', userRoute)
 app.use('/api/getimages', imageRoute)
 app.use('/api/upload', uploadRoutes)
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
-	app.use(express.static(path.join('./', 'frontend/build')))
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve('./', 'frontend', 'build', 'index.html'))
-	})
-}
-else {
+	app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+	app.get('*', (req, res) =>
+		res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+	)
+} else {
 	app.get('/', (req, res) => {
-		res.send('API is running')
+		res.send('API is running....')
 	})
 }
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+// if (process.env.NODE_ENV === 'production') {
+// 	app.use(express.static(path.join('./', 'frontend/build')))
+// 	app.get('*', (req, res) => {
+// 		res.sendFile(path.resolve('./', 'frontend', 'build', 'index.html'))
+// 	})
+// }
+// else {
+// 	app.get('/', (req, res) => {
+// 		res.send('API is running')
+// 	})
+// }
+// app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
 app.use(errorHandler)
