@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap'
 import HomeScreen from './components/HomeScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
+import SimpleReactLightbox from 'simple-react-lightbox'
 
 function App() {
 	return (
@@ -12,11 +13,13 @@ function App() {
 			<Router>
 				<Header />
 				<main className='py-3'>
-					<Container>
-						<Route path='/' component={HomeScreen} exact />
-						<Route path='/login' component={LoginScreen} exact />
-						<Route path='/register' component={RegisterScreen} exact />
-					</Container>
+					<SimpleReactLightbox>
+						<Container>
+							<Route path='/' component={HomeScreen} exact />
+							<Route path='/login' component={LoginScreen} exact />
+							<Route path='/register' component={RegisterScreen} exact />
+						</Container>
+					</SimpleReactLightbox>
 				</main>
 			</Router>
 		</>

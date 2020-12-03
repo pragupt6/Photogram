@@ -21,15 +21,12 @@ const HomeScreen = ({ history }) => {
 	const { userInfo } = userLogin
 	useEffect(() => {
 		if (userInfo) {
-			console.log('====================================');
-			console.log(userInfo);
-			console.log('====================================');
 			dispatch(getAllImages(userInfo._id))
 		}
 	}, [dispatch, history, upload])
 	const submitHandler = async (e) => {
 		e.preventDefault()
-		setUploadProgress(true);
+
 		const file = file1
 		const formData = new FormData()
 		formData.append('image', file)
@@ -41,6 +38,7 @@ const HomeScreen = ({ history }) => {
 					'content-type': 'multipart/form-data',
 				},
 			}
+			setUploadProgress(true);
 			// console.log(await axios.post('/api/upload', formData, config));
 			await axios.post('/api/upload', formData, config)
 				.then(response => {
@@ -107,7 +105,7 @@ const HomeScreen = ({ history }) => {
 					</Form>
 				</Col>
 			</Row>}
-			{ userInfo && <Row className='py-3 px-4'>
+			{ userInfo && <SRLWrapper><Row className='py-3 px-4'>
 				{loading ? (
 					<Loader />
 				) : error ? (
@@ -123,20 +121,20 @@ const HomeScreen = ({ history }) => {
 								xl={3}
 								className='py-2'
 							>
-								<SRLWrapper>
-									<Image
-										src={image.imageURL}
-										thumbnail
-										fluid
-										className='img-fluid'
-									// style={{ height: '250px', width: '250px' }}
-									/>
-								</SRLWrapper>
+
+								<Image
+									src={image.imageURL}
+									thumbnail
+									fluid
+									className='img-fluid'
+								// style={{ height: '250px', width: '250px' }}
+								/>
+								{/* </SRLWrapper> */}
 							</Col>
 						)
 					})
 				)}
-			</Row>}
+			</Row></SRLWrapper>}
 		</>
 
 	)

@@ -9,9 +9,9 @@ import store from './store'
 import SimpleReactLightbox from 'simple-react-lightbox'
 ReactDOM.render(
 	<Provider store={store}>
-		<SimpleReactLightbox>
-			<App />
-		</SimpleReactLightbox>
+		{/* <SimpleReactLightbox> */}
+		<App />
+		{/* </SimpleReactLightbox> */}
 	</Provider>,
 	document.getElementById('root')
 )
