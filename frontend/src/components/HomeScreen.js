@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllImages, uploadImage } from '../actions/imageActions'
-import { Container, Image, Row, Col, Form, Button } from 'react-bootstrap'
+import { Container, Image, Row, Col, Form, Button, ProgressBar } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import Loader from './Loader'
 import Message from './Message'
@@ -11,6 +11,7 @@ import { SRLWrapper } from "simple-react-lightbox";
 const HomeScreen = ({ history }) => {
 	const [filename, setFilename] = useState('Select an image to upload...')
 	const [msg, setMsg] = useState('')
+	const [uploadProgress, setUploadProgress] = useState(false)
 	const [file1, setFile] = useState(null)
 	const [upload, setUpload] = useState('')
 	const dispatch = useDispatch()
@@ -28,6 +29,7 @@ const HomeScreen = ({ history }) => {
 	}, [dispatch, history, upload])
 	const submitHandler = async (e) => {
 		e.preventDefault()
+		setUploadProgress(true);
 		const file = file1
 		const formData = new FormData()
 		formData.append('image', file)
@@ -59,6 +61,8 @@ const HomeScreen = ({ history }) => {
 
 		} catch (error) {
 			console.error(error)
+		} finally {
+			setUploadProgress(false);
 		}
 	}
 	const handleFile = async (e) => {
@@ -72,9 +76,14 @@ const HomeScreen = ({ history }) => {
 			{!userInfo && <div className="d-flex justify-content-center align-items-center">Please &nbsp;<Link to='/login'>sign in</Link>&nbsp;to see your stuff!</div>}
 			{ userInfo && <Row>
 				<Col>
+					{uploadProgress && <>
+						<ProgressBar animated striped variant="success" label="Uploading in progress..." now={100} />
+					</>}
 					<Form encType="multipart/form-data" onSubmit={submitHandler}>
+
 						<div className='d-flex flex-column align-items-center'>
-							<div className='d-flex w-100'>
+
+							{!uploadProgress && <div className='d-flex w-100'>
 								<div className='input-group'>
 									<Form.File
 										id='custom-file'
@@ -89,13 +98,12 @@ const HomeScreen = ({ history }) => {
 								<div>
 									<Button variant='outline' className='btn-outline-primary w-20' type='submit'><i className="fa fa-upload" aria-label='upload' alt='upload'></i></Button>
 								</div>
-							</div>
+							</div>}
 							<div className='mt-3'>
 								{msg !== '' ? <Message variant='danger'>{msg}</Message> : ''}
 								{/* <Button>Error</Button> */}
 							</div>
 						</div>
-
 					</Form>
 				</Col>
 			</Row>}
