@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Container, Button } from 'react-bootstrap'
+import { Navbar, Container, Button, Nav, NavDropdown, Text } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import logo from '../logo.svg'
 import { logout } from '../actions/userActions'
@@ -17,7 +17,7 @@ const Header = () => {
 	return (
 		<>
 			<header>
-				<Navbar bg='dark' variant='dark'>
+				<Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
 					<Container>
 						<LinkContainer to='/'>
 							<Navbar.Brand>
@@ -31,11 +31,21 @@ const Header = () => {
 								Photogram
 							</Navbar.Brand>
 						</LinkContainer>
-						<Navbar.Toggle />
-						{userInfo ? <Navbar.Collapse className='justify-content-around'>
-							<Navbar.Text>Signed in as: {`${userInfo.email}`}</Navbar.Text>
-							<Navbar.Text><Button onClick={logoutHandler}>Logout</Button></Navbar.Text>
-						</Navbar.Collapse> : ''}
+						<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+						<Navbar.Collapse id="responsive-navbar-nav">
+							<Nav className="mr-auto">
+								{/* <Nav.Link href="#features">Features</Nav.Link>
+								<Nav.Link href="#pricing">Pricing</Nav.Link> */}
+
+							</Nav>
+							<Nav>
+								{userInfo ? <><Navbar.Text>Signed is as: </Navbar.Text>
+									<NavDropdown title={`${userInfo.email}`} id="collasible-nav-dropdown">
+										<NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
+									</NavDropdown></> : <LinkContainer to='/login'><Navbar.Text><i className='far fa-user' style={{ color: '#fff' }}>{' '}Sign in</i></Navbar.Text></LinkContainer>}
+							</Nav>
+						</Navbar.Collapse>
+
 					</Container>
 				</Navbar>
 			</header>

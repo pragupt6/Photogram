@@ -26,7 +26,6 @@ const HomeScreen = ({ history }) => {
 	}, [dispatch, history, upload])
 	const submitHandler = async (e) => {
 		e.preventDefault()
-
 		const file = file1
 		const formData = new FormData()
 		formData.append('image', file)
